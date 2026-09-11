@@ -6,6 +6,7 @@ import './App.css'
 import { Connectors } from "./components/Connectors";
 import { EditPanel } from "./components/EditPanel";
 import { PreviewMode } from "./components/PreviewMode";
+import { findBrokenLinkNodeIds } from "./utils/validation";
 
 export default function App() {
   const [nodes, setNodes] = useState<FlowNode[]>(flowData.nodes as FlowNode[]);
@@ -13,6 +14,7 @@ export default function App() {
   const [nodeHeights, setNodeHeights] = useState<Record<string, number>>({});
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [mode, setMode] = useState<"editor" | "preview">("editor");
+  const brokenLinkIds = findBrokenLinkNodeIds(nodes);
 
   const measureHeights = useCallback(() => {
     const heights: Record<string, number> = {};
