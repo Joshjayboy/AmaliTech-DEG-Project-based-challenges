@@ -5,12 +5,14 @@ import flowData from "../flow_data.json";
 import './App.css'
 import { Connectors } from "./components/Connectors";
 import { EditPanel } from "./components/EditPanel";
+import { PreviewMode } from "./components/PreviewMode";
 
 export default function App() {
   const [nodes, setNodes] = useState<FlowNode[]>(flowData.nodes as FlowNode[]);
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [nodeHeights, setNodeHeights] = useState<Record<string, number>>({});
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [mode, setMode] = useState<"editor" | "preview">("editor");
 
   const measureHeights = useCallback(() => {
     const heights: Record<string, number> = {};
@@ -30,6 +32,11 @@ export default function App() {
     setNodes((prev) => prev.map((n) => (n.id === id ? { ...n, text } : n)));
   };
 
+  if (mode === "preview") {
+    return <PreviewMode nodes={nodes} onExit={() => setMode("editor")} />;
+  }
+
+
   return (
     <div style={{ width: "100%", height: "100vh", background: "#0a0a0a", display: "flex" }}>
       <div style={{ position: "relative", flex: 1, overflow: "äuto" }}
@@ -46,6 +53,10 @@ export default function App() {
               }}
             />
           ))}
+
+          <button onClick={() => setMode("preview")} style={{ background: "#6366f1", color: "#fff", border: "none", padding: "8px 16px", borderRadius: 6, cursor: "pointer" }}>
+            Preview
+          </button>
         </div>
       </div>
 
