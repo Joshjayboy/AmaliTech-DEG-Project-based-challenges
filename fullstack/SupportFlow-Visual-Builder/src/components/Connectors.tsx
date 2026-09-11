@@ -21,6 +21,18 @@ export function Connectors({ nodes }: ConnectorsProps) {
                 pointerEvents: "none",
             }}
         >
+            <defs>
+                <marker
+                    id="arrow"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="6"
+                    refY="3"
+                    orient="auto"
+                >
+                    <path d="M0,0 L0,6 L8,3 z" fill="#555" />
+                </marker>
+            </defs>
             {nodes.map((node) =>
                 node.options.map((opt, i) => {
                     const target = nodeMap.get(opt.nextId);
@@ -31,15 +43,19 @@ export function Connectors({ nodes }: ConnectorsProps) {
                     const x2 = target.position.x + NODE_WIDTH / 2;
                     const y2 = target.position.y;
 
+                    const dy = y2 - y1;
+                    const controlOffset = Math.abs(dy) * 0.5;
+
+                    const path = `M ${x1} ${y1} C ${x1} ${y1 + controlOffset}, ${x2} ${y2 - controlOffset}, ${x2} ${y2}`;
+
                     return (
-                        <line
+                        <path
                             key={`${node.id}-${opt.nextId}-${i}`}
-                            x1={x1}
-                            y1={y1}
-                            x2={x2}
-                            y2={y2}
+                            d={path}
+                            fill="none"
                             stroke="#555"
                             strokeWidth={1.5}
+                            markerEnd="url(#arrow)"
                         />
                     );
                 })
