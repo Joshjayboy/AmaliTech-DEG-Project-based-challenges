@@ -34,6 +34,7 @@ export const NodeCard = forwardRef<HTMLDivElement, NodeCardProps>(
                     fontSize: 13,
                     cursor: "pointer",
                     boxShadow: selected ? "0 0 0 2px rgba(99,102,241,0.3)" : "none",
+                    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
 
                 }}
             >
