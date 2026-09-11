@@ -41,14 +41,15 @@ export default function App() {
 
   return (
     <div style={{ width: "100%", height: "100vh", background: "#0a0a0a", display: "flex" }}>
-      <div style={{ position: "relative", flex: 1, overflow: "äuto" }}
+      <div style={{ position: "relative", flex: 1, overflow: "auto" }}
         onClick={() => setSelectedId(null)}
       >
         <div style={{ position: "relative", width: 1200, height: 800 }}>
 
           <Connectors nodes={nodes} nodeHeights={nodeHeights} />
           {nodes.map((node) => (
-            <NodeCard key={node.id} node={node} selected={node.id === selectedId} ref={(el) => { nodeRefs.current[node.id] = el; }}
+            <NodeCard key={node.id} node={node} selected={node.id === selectedId} hasError={brokenLinkIds.has(node.id)}
+              ref={(el) => { nodeRefs.current[node.id] = el; }}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedId(node.id === selectedId ? null : node.id);

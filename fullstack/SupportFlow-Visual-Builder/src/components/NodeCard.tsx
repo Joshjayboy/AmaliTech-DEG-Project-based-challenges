@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 interface NodeCardProps {
     node: FlowNode;
     selected: boolean;
+    hasError: boolean;
     onClick: (e: React.MouseEvent) => void;
 }
 
@@ -14,7 +15,7 @@ const TYPE_COLORS: Record<FlowNode["type"], string> = {
 };
 
 export const NodeCard = forwardRef<HTMLDivElement, NodeCardProps>(
-    ({ node, selected, onClick }, ref) => {
+    ({ node, selected, hasError, onClick }, ref) => {
         return (
             <div
                 ref={ref}
@@ -37,7 +38,8 @@ export const NodeCard = forwardRef<HTMLDivElement, NodeCardProps>(
                 }}
             >
                 <div style={{ fontSize: 10, opacity: 0.6, marginBottom: 4 }}>
-                    {node.type.toUpperCase()} · #{node.id}
+                    <span>{node.type.toUpperCase()} · #{node.id}</span>
+                    {hasError && <span style={{ color: "#f43f5e" }}>broken link</span>}
                 </div>
                 <div>{node.text}</div>
             </div>
