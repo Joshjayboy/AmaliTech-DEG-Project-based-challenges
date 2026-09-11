@@ -5,9 +5,10 @@ const NODE_HEIGHT = 90;
 
 interface ConnectorsProps {
     nodes: FlowNode[];
+    nodeHeights: Record<string, number>;
 }
 
-export function Connectors({ nodes }: ConnectorsProps) {
+export function Connectors({ nodes, nodeHeights }: ConnectorsProps) {
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
     return (
@@ -39,7 +40,7 @@ export function Connectors({ nodes }: ConnectorsProps) {
                     if (!target) return null;
 
                     const x1 = node.position.x + NODE_WIDTH / 2;
-                    const y1 = node.position.y + NODE_HEIGHT;
+                    const y1 = node.position.y + (nodeHeights[node.id] ?? NODE_HEIGHT);
                     const x2 = target.position.x + NODE_WIDTH / 2;
                     const y2 = target.position.y;
 
