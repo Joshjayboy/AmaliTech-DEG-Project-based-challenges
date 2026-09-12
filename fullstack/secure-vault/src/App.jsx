@@ -5,7 +5,7 @@ import data from "../data.json";
 import PropertiesPanel from "./components/PropertiesPanel";
 import { useExpanded } from "./hooks/useExpanded";
 import { flattenVisibleTree } from "./utils/flattenTree";
-import Breadcrumbs from "./components/Breadcrumbs";
+import Breadcrumbs from "./components/BreadCrumbs";
 import { findPath } from "./utils/findPath";
 import SearchBar from "./components/SearchBar";
 import { getMatchingIds } from "./utils/searchTree";
