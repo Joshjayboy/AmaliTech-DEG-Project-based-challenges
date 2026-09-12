@@ -24,7 +24,7 @@ function TreeNode({ node, depth = 0 }) {
                 {!isFolder && <span className="tree-size">{node.size}</span>}
             </div>
 
-            {isFolder && node.children?.map((child) => (
+            {isFolder && isOpen && node.children?.map((child) => (
                 <TreeNode key={child.id} node={child} depth={depth + 1} />
             ))}
         </div>
