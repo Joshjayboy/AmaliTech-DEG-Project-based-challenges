@@ -8,11 +8,15 @@ function TreeNode({
   expandedIds,
   onToggle,
   focusedId,
+  matchIds,
+  isSearching,
 }) {
   const isOpen = expandedIds.has(node.id);
   const isFolder = node.type === "folder";
   const isSelected = node.id === selectedId;
   const isFocused = node.id === focusedId;
+  const isMatch = matchIds?.has(node.id);
+  const isDimmed = isSearching && !isMatch;
 
   const handleRowClick = () => {
     if (isFolder) {
@@ -29,6 +33,8 @@ function TreeNode({
           "tree-row",
           isSelected && "tree-row--selected",
           isFocused && "tree-row--focused",
+          isMatch && "tree-row--match",
+          isDimmed && "tree-row--dimmed",
         ]
           .filter(Boolean)
           .join(" ")}
@@ -119,6 +125,8 @@ function TreeNode({
             expandedIds={expandedIds}
             onToggle={onToggle}
             focusedId={focusedId}
+            matchIds={matchIds}
+            isSearching={isSearching}
           />
         ))}
     </div>

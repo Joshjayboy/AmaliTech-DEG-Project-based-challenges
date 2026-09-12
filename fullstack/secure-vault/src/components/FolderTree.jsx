@@ -7,6 +7,8 @@ function FolderTree({
   expandedIds,
   onToggle,
   focusedId,
+  matchIds,
+  isSearching,
 }) {
   return (
     <div className="folder-tree">
@@ -20,6 +22,8 @@ function FolderTree({
           expandedIds={expandedIds}
           onToggle={onToggle}
           focusedId={focusedId}
+          matchIds={matchIds}
+          isSearching={isSearching}
         />
       ))}
     </div>
