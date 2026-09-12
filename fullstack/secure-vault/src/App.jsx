@@ -7,18 +7,33 @@ import { useExpanded } from "./hooks/useExpanded";
 import { flattenVisibleTree } from "./utils/flattenTree";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { findPath } from "./utils/findPath";
+import SearchBar from "./components/SearchBar";
+import { getMatchingIds } from "./utils/searchTree";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [focusedId, setFocusedId] = useState(data[0]?.id ?? null);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { expandedIds, toggle, expand, collapse } = useExpanded(
     data.map((n) => n.id),
   );
   const explorerRef = useRef(null);
 
+  const { matchIds, ancestorIds } = useMemo(() => {
+    if (!searchQuery.trim())
+      return { matchIds: new Set(), ancestorIds: new Set() };
+    return getMatchingIds(data, searchQuery.trim());
+  }, [searchQuery]);
+
+  const effectiveExpandedIds = useMemo(() => {
+    if (!searchQuery.trim()) return expandedIds;
+    return new Set([...expandedIds, ...ancestorIds]);
+  }, [expandedIds, ancestorIds, searchQuery]);
+
   const visibleNodes = useMemo(
-    () => flattenVisibleTree(data, expandedIds),
-    [expandedIds],
+    () => flattenVisibleTree(data, effectiveExpandedIds),
+    [effectiveExpandedIds],
   );
 
   const focusedIndex = visibleNodes.findIndex((n) => n.id === focusedId);
@@ -103,6 +118,7 @@ function App() {
         role="tree"
         onKeyDown={handleKeyDown}
       >
+        <SearchBar value={searchQuery} onChange={setSearchQuery} />
         <FolderTree
           data={data}
           selectedId={selectedFile?.id}
@@ -110,6 +126,8 @@ function App() {
           expandedIds={expandedIds}
           onToggle={toggle}
           focusedId={focusedId}
+          matchIds={matchIds}
+          isSearching={!!searchQuery.trim()}
         />
       </aside>
       <main className="main-panel">
