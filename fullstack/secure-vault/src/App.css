@@ -15,3 +15,31 @@ body {
   display: flex;
   height: 100vh;
 }
+
+.explorer-panel {
+  width: 320px;
+  background: var(--color-bg-elevated);
+  border-right: 1px solid var(--color-border);
+  overflow-y: auto;
+  padding: var(--space-2) 0;
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tree-row:hover {
+  background: var(--color-bg-hover);
+}
+
+.tree-size {
+  margin-left: auto;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
