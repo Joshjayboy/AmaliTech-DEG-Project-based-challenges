@@ -9,7 +9,7 @@ function TreeNode({
   onToggle,
   focusedId,
 }) {
-  const [isOpen, setIsOpen] = useState(depth === 0);
+  const isOpen = expandedIds.has(node.id);
   const isFolder = node.type === "folder";
   const isSelected = node.id === selectedId;
   const isFocused = node.id === focusedId;
