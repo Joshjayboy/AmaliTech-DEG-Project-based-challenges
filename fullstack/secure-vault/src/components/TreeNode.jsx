@@ -17,7 +17,7 @@ function TreeNode({ node, depth = 0 }) {
                 onClick={handleToggle}
             >
                 {isFolder && (
-                    <span className="tree-caret">{isOpen ? 'Open' : 'Close'}</span>
+                    <span className="tree-caret">{isOpen ? '=>' : 'v'}</span>
                 )}
                 <span className="tree-icon">{isFolder ? 'Folder' : 'File'}</span>
                 <span className="tree-name">{node.name}</span>
