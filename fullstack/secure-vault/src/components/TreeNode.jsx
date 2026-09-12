@@ -43,6 +43,7 @@ function TreeNode({
         role="treeitem"
         aria-expanded={isFolder ? isOpen : undefined}
         aria-selected={isSelected}
+        aria-level={depth + 1}
       >
         {isFolder && (
           <span className="tree-caret">

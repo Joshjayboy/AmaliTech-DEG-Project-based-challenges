@@ -119,6 +119,9 @@ function App() {
         onKeyDown={handleKeyDown}
       >
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <div aria-live="polite" className="sr-only">
+          {searchQuery.trim() && `${matchIds.size} results found`}
+        </div>
         <FolderTree
           data={data}
           selectedId={selectedFile?.id}
