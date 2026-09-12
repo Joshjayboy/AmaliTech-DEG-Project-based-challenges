@@ -1,20 +1,25 @@
 import { useState } from 'react';
 
-function TreeNode({ node, depth = 0 }) {
+function TreeNode({ node, depth = 0, selectedId, onSelect }) {
     const [isOpen, setIsOpen] = useState(depth === 0);
     const isFolder = node.type === 'folder';
     const hasChildren = isFolder && node.children?.length > 0;
+    const isSelected = node.id === selectedId;
 
-    const handleToggle = () => {
-        if (isFolder) setIsOpen((prev) => !prev);
+
+    const handleRowClick = () => {
+        if (isFolder) {
+            setIsOpen((prev) => !prev);
+        } else {
+            onSelect(node);
+        }
     };
-
     return (
         <div className="tree-node">
             <div
-                className="tree-row"
+                className={`tree-row ${isSelected ? 'tree-row--selected' : ''}`}
                 style={{ paddingLeft: `${depth * 16 + 8}px` }}
-                onClick={handleToggle}
+                onClick={handleRowClick}
             >
                 {isFolder && (
                     <span className="tree-caret">
@@ -46,7 +51,8 @@ function TreeNode({ node, depth = 0 }) {
             </div>
 
             {isFolder && isOpen && node.children?.map((child) => (
-                <TreeNode key={child.id} node={child} depth={depth + 1} />
+                <TreeNode key={child.id} node={child} depth={depth + 1} selectedId={selectedId}
+                    onSelect={onSelect} />
             ))}
         </div>
     );
