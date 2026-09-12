@@ -5,6 +5,8 @@ import data from "../data.json";
 import PropertiesPanel from "./components/PropertiesPanel";
 import { useExpanded } from "./hooks/useExpanded";
 import { flattenVisibleTree } from "./utils/flattenTree";
+import Breadcrumbs from "./components/Breadcrumbs";
+import { findPath } from "./utils/findPath";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -20,6 +22,16 @@ function App() {
   );
 
   const focusedIndex = visibleNodes.findIndex((n) => n.id === focusedId);
+
+  const breadcrumbPath = useMemo(
+    () => (selectedFile ? findPath(data, selectedFile.id) : null),
+    [selectedFile],
+  );
+
+  const handleBreadcrumbNavigate = useCallback((node) => {
+    setFocusedId(node.id);
+    if (node.type === "file") setSelectedFile(node);
+  }, []);
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -101,6 +113,10 @@ function App() {
         />
       </aside>
       <main className="main-panel">
+        <Breadcrumbs
+          path={breadcrumbPath}
+          onNavigate={handleBreadcrumbNavigate}
+        />
         <PropertiesPanel file={selectedFile} />
       </main>
     </div>
