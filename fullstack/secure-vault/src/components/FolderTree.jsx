@@ -12,6 +12,9 @@ function FolderTree({
 }) {
   return (
     <div className="folder-tree">
+      {isSearching && matchIds.size === 0 && (
+        <div className="empty-state">No matches found</div>
+      )}
       {data.map((node) => (
         <TreeNode
           key={node.id}
